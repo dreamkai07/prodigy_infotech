@@ -1,1 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <p>
+                <span class="mins">00</span>:<span class="seconds">00</span>:<span class="tens">00</span>
+            </p> <br>
+            <button class="btn-start">Start</button>
+            <button class="btn-stop">Stop</button>
+            <button class="btn-lap">Lap</button>
+            <button class="btn-reset">Reset</button>
+            <div class="lap-times-container">
+                <!-- Lap times will be displayed here -->
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+let seconds = 0;
+let tens = 0;
+let mins = 0;
+let getSeconds = document.querySelector('.seconds');
+let getTens = document.querySelector('.tens');
+let getMins = document.querySelector('.mins');
+let btnStart = document.querySelector('.btn-start');
+let btnStop = document.querySelector('.btn-stop');
+let btnReset = document.querySelector('.btn-reset');
+let btnLap = document.querySelector('.btn-lap');
+let interval;
+let lapTimes = []; // Array to store lap times
+let lapList = document.createElement('ul'); // Create <ul> element for lap times
+let lapListContainer = document.querySelector('.lap-times-container');
+
+btnStart.addEventListener('click', () => {
+    clearInterval(interval);
+    interval = setInterval(startTimer, 10);
+});
+
+btnStop.addEventListener('click', () => {
+    clearInterval(interval);
+});
+
+btnReset.addEventListener('click', () => {
+    clearInterval(interval);
+    tens = 0;
+    seconds = 0;
+    mins = 0;
+    getSeconds.innerHTML = '00';
+    getTens.innerHTML = '00';
+    getMins.innerHTML = '00';
+    lapTimes = []; // Reset lap times
+    lapList.innerHTML = ''; // Clear lap list
+});
+
+btnLap.addEventListener('click', () => {
+    // Store the current time as a lap time
+    lapTimes.push(`${mins}:${seconds}:${tens}`);
+    // Display lap times
+    displayLapTimes();
+});
+
+function startTimer() {
+    tens++;
+    if (tens <= 9) {
+        getTens.innerHTML = '0' + tens;
+    }
+    if (tens > 9) {
+        getTens.innerHTML = tens;
+    }
+    if (tens > 99) {
+        seconds++;
+        getSeconds.innerHTML = '0' + seconds;
+        tens = 0;
+        getTens.innerHTML = '00';
+    }
+    if (seconds > 9) {
+        getSeconds.innerHTML = seconds;
+    }
+    if (seconds > 59) {
+        mins++;
+        getMins.innerHTML = '0' + mins;
+        seconds = 0;
+        getSeconds.innerHTML = '00';
+    }
+    if (mins > 9) {
+        getMins.innerHTML = mins;
+    }
+}
+
+function displayLapTimes() {
+    // Clear previous lap times
+    lapList.innerHTML = '';
+    // Populate lap list with lap times
+    lapTimes.forEach((lapTime, index) => {
+        let lapItem = document.createElement('li');
+        lapItem.textContent = `Lap ${index + 1}: ${lapTime}`;
+        lapList.appendChild(lapItem);
+    });
+    // Append lap list to lap list container
+    lapListContainer.appendChild(lapList);
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.container {
+    background-color: #ffeb3b; /* changed to yellow */
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+}
+
+.wrapper {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Redesigned digital clock appearance */
+.wrapper p {
+    position: relative;
+    display: inline-block;
+    color: #ffeb3b;
+    background-color: #1f1f2e; /* dark face for contrast */
+    padding: 20px 50px;
+    border-radius: 16px;
+    font-size: 64px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    z-index: 9999;
+    margin-bottom: 60px; /* adjusted to keep some spacing */
+    box-shadow: 0 0 40px rgba(31, 31, 46, 0.7), inset 0 0 20px rgba(255, 235, 59, 0.6);
+    text-shadow: 0 0 12px rgba(255, 235, 59, 0.9), 0 0 24px rgba(255, 235, 59, 0.6);
+    min-width: 280px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* Optional blinking colon if markup uses a span with class "colon" */
+.colon {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Updated shine/pulse background behind clock */
+.wrapper p::before {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle at 50% 50%, rgba(31,31,46,0.4), transparent 70%);
+    z-index: -1;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation-name: pulse;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 40px -4px rgba(255, 235, 59, 0.6);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+        box-shadow: 0 0 60px 0px rgba(255, 235, 59, 0.8);
+    }
+}
+
+button {
+    background-color: #1f1f2e;
+    padding: 10px 38px;
+    border: 1px solid #1f1f2e;
+    border-radius: 28px;
+    color: #ffeb3b;
+    transition: all .2s ease;
+    outline: 0;
+    cursor: pointer;
+}
+
+button:not(:last-child) {
+    margin-right: 20px;
+}
+
+button:hover,
+button:focus {
+    border-color: #333;
+    color: #1f1f2e;
+    background-color: #ffd844;
+    box-shadow: 0px 4px 27px -12px rgba(31, 31, 46, .6);
+}
+
+.lap-times-container {
+    text-align: center;
+    margin-top: 20px;
+    color: #1f1f2e; /* dark text for readability on yellow */
+    font-size: 18px;
+}
+
 
