@@ -1,0 +1,45 @@
+# Prodigy Infotech Web Development Internship – Tasks
+
+This repository contains the projects and tasks I completed during my **Prodigy Infotech Web Development Internship**.  
+The internship focused on applying HTML, CSS, and JavaScript to build interactive and visually appealing web applications.
+
+---
+
+## 📌 Internship Details
+- **Domain:** Web Development
+- **Duration:** [Add duration here, e.g., 1 Month – July 2025]
+- **Company:** Prodigy Infotech
+- **Role:** Web Development Intern
+- **Technologies Used:** HTML, CSS, JavaScript
+
+---
+
+## 📂 Tasks Overview
+
+### **Task 1 – Responsive Landing Page**
+- Developed a fully responsive landing page using HTML and CSS.
+- Incorporated smooth navigation, flexible grid layout, and media queries.
+- Ensured mobile-first design and cross-browser compatibility.
+
+### **Task 2 – Stopwatch Web Application**
+- Built a functional stopwatch using JavaScript.
+- Features include start, pause, reset, and lap-time tracking.
+- Styled with a modern UI, smooth animations, and interactive buttons.
+
+### **Task 3 – Tic Tac Toe Game**
+- Created a 2-player Tic Tac Toe game using HTML, CSS, and JavaScript.
+- Highlights current player’s turn and detects win/draw scenarios.
+- Added hover effects, softer edges, and a modern board design.
+
+### **Task 4 – Weather Application**
+- Developed a weather app using JavaScript and API integration.
+- Fetches live weather data including temperature, humidity, wind speed, and visibility.
+- Styled with a blue–light brown theme and soft-edged UI components.
+
+---
+
+## 🛠 Tech Stack
+- **HTML5** – Structure & Layout
+- **CSS3** – Styling, Animations, Responsive Design
+- **JavaScript (ES6)** – DOM Manipulation, Event Handling, API Fetch
+- **OpenWeather API** – Live Weather Data (Task 4)      
