@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.container {
+    background-color: #ffeb3b; /* changed to yellow */
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+}
+
+.wrapper {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Redesigned digital clock appearance */
+.wrapper p {
+    position: relative;
+    display: inline-block;
+    color: #ffeb3b;
+    background-color: #1f1f2e; /* dark face for contrast */
+    padding: 20px 50px;
+    border-radius: 16px;
+    font-size: 64px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    z-index: 9999;
+    margin-bottom: 60px; /* adjusted to keep some spacing */
+    box-shadow: 0 0 40px rgba(31, 31, 46, 0.7), inset 0 0 20px rgba(255, 235, 59, 0.6);
+    text-shadow: 0 0 12px rgba(255, 235, 59, 0.9), 0 0 24px rgba(255, 235, 59, 0.6);
+    min-width: 280px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* Optional blinking colon if markup uses a span with class "colon" */
+.colon {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Updated shine/pulse background behind clock */
+.wrapper p::before {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle at 50% 50%, rgba(31,31,46,0.4), transparent 70%);
+    z-index: -1;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation-name: pulse;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 40px -4px rgba(255, 235, 59, 0.6);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+        box-shadow: 0 0 60px 0px rgba(255, 235, 59, 0.8);
+    }
+}
+
+button {
+    background-color: #1f1f2e;
+    padding: 10px 38px;
+    border: 1px solid #1f1f2e;
+    border-radius: 28px;
+    color: #ffeb3b;
+    transition: all .2s ease;
+    outline: 0;
+    cursor: pointer;
+}
+
+button:not(:last-child) {
+    margin-right: 20px;
+}
+
+button:hover,
+button:focus {
+    border-color: #333;
+    color: #1f1f2e;
+    background-color: #ffd844;
+    box-shadow: 0px 4px 27px -12px rgba(31, 31, 46, .6);
+}
+
+.lap-times-container {
+    text-align: center;
+    margin-top: 20px;
+    color: #1f1f2e; /* dark text for readability on yellow */
+    font-size: 18px;
+}
