@@ -1,110 +1,117 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+*{
+    color: white;
+    font-family: sans-serif;
+    transition: 0.2s ease-in-out;
+    user-select: none;
+}
 
-* {
+.align{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body{
+    background-color: #c62828; /* red background */
     margin: 0;
     padding: 0;
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-.container {
-    background-color: #ffeb3b; /* changed to yellow */
-    height: 100vh;
-    width: 100%;
+    width: 100vw;
     text-align: center;
-    position: fixed;
+    padding-top: 5vh;
 }
 
-.wrapper {
+.turn-container{
+    width: 170px;
+    height: 80px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border-radius: 14px; /* softer edge */
+    overflow: hidden;
 }
 
-/* Redesigned digital clock appearance */
-.wrapper p {
-    position: relative;
-    display: inline-block;
-    color: #ffeb3b;
-    background-color: #1f1f2e; /* dark face for contrast */
-    padding: 20px 50px;
-    border-radius: 16px;
-    font-size: 64px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    z-index: 9999;
-    margin-bottom: 60px; /* adjusted to keep some spacing */
-    box-shadow: 0 0 40px rgba(31, 31, 46, 0.7), inset 0 0 20px rgba(255, 235, 59, 0.6);
-    text-shadow: 0 0 12px rgba(255, 235, 59, 0.9), 0 0 24px rgba(255, 235, 59, 0.6);
-    min-width: 280px;
-    font-family: 'Source Sans Pro', sans-serif;
+.turn-container h3{
+    margin: 0;
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 
-/* Optional blinking colon if markup uses a span with class "colon" */
-.colon {
-    display: inline-block;
-    animation: blink 1s step-end infinite;
+.turn-container .turn-box{
+    border: 2px solid rgba(0,0,0,0.6);
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-radius: 10px; /* softer edges */
+    background: #ffe066; /* light yellow for turn boxes to tie with box theme */
+    color: black; /* X/O indicator in black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+/* preserve previous even-child border logic but softened */
+.turn-container .turn-box:nth-child(even){
+    border-right: none;
 }
 
-/* Updated shine/pulse background behind clock */
-.wrapper p::before {
-    content: '';
+.bg{
     position: absolute;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle at 50% 50%, rgba(31,31,46,0.4), transparent 70%);
+    bottom: 0;
+    left: 0;
+    width: 85px;
+    height: 40px;
+    background-color: #FF2E63;
     z-index: -1;
-    border-radius: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    animation-name: pulse;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
+    border-radius: 8px;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 40px -4px rgba(255, 235, 59, 0.6);
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.08);
-        box-shadow: 0 0 60px 0px rgba(255, 235, 59, 0.8);
-    }
+.main-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    height: 250px;
+    width: 250px;
+    margin: 30px auto;
+    border: 2px solid rgba(0,0,0,0.6);
+    border-radius: 18px; /* softer corners */
+    overflow: hidden;
 }
 
-button {
-    background-color: #1f1f2e;
-    padding: 10px 38px;
-    border: 1px solid #1f1f2e;
-    border-radius: 28px;
-    color: #ffeb3b;
-    transition: all .2s ease;
-    outline: 0;
+.box{
     cursor: pointer;
+    font-size: 2rem;
+    font-weight: 700;
+    border: 2px solid rgba(0,0,0,0.6);
+    background-color: #ffeb3b; /* yellow boxes */
+    color: black; /* X and O in black */
+    border-radius: 14px; /* soft edges */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6px; /* to create spacing while keeping grid shape but soften appearance */
+    box-sizing: border-box;
+    transition: transform .15s ease, background .15s ease;
 }
 
-button:not(:last-child) {
-    margin-right: 20px;
+.box:hover{
+    background-color: #fff176; /* slightly brighter yellow on hover */
+    transform: scale(1.03);
 }
 
-button:hover,
-button:focus {
-    border-color: #333;
-    color: #1f1f2e;
-    background-color: #ffd844;
-    box-shadow: 0px 4px 27px -12px rgba(31, 31, 46, .6);
+#play-again{
+    background-color: #FF2E63;
+    padding: 10px 25px;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 8px; /* softer */
+    cursor: pointer;
+    display: none;
+    transition: all .2s ease-in-out;
 }
 
-.lap-times-container {
-    text-align: center;
-    margin-top: 20px;
-    color: #1f1f2e; /* dark text for readability on yellow */
-    font-size: 18px;
+#play-again:hover{
+    padding: 10px 50px;
+    background-color: #08D9D6;
+    color: #000;
 }

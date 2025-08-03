@@ -1,83 +1,80 @@
-let seconds = 0;
-let tens = 0;
-let mins = 0;
-let getSeconds = document.querySelector('.seconds');
-let getTens = document.querySelector('.tens');
-let getMins = document.querySelector('.mins');
-let btnStart = document.querySelector('.btn-start');
-let btnStop = document.querySelector('.btn-stop');
-let btnReset = document.querySelector('.btn-reset');
-let btnLap = document.querySelector('.btn-lap');
-let interval;
-let lapTimes = []; // Array to store lap times
-let lapList = document.createElement('ul'); // Create <ul> element for lap times
-let lapListContainer = document.querySelector('.lap-times-container');
+let boxes = document.querySelectorAll(".box");
 
-btnStart.addEventListener('click', () => {
-    clearInterval(interval);
-    interval = setInterval(startTimer, 10);
-});
+let turn = "X";
+let isGameOver = false;
 
-btnStop.addEventListener('click', () => {
-    clearInterval(interval);
-});
+boxes.forEach(e =>{
+    e.innerHTML = ""
+    e.addEventListener("click", ()=>{
+        if(!isGameOver && e.innerHTML === ""){
+            e.innerHTML = turn;
+            cheakWin();
+            cheakDraw();
+            changeTurn();
+        }
+    })
+})
 
-btnReset.addEventListener('click', () => {
-    clearInterval(interval);
-    tens = 0;
-    seconds = 0;
-    mins = 0;
-    getSeconds.innerHTML = '00';
-    getTens.innerHTML = '00';
-    getMins.innerHTML = '00';
-    lapTimes = []; // Reset lap times
-    lapList.innerHTML = ''; // Clear lap list
-});
-
-btnLap.addEventListener('click', () => {
-    // Store the current time as a lap time
-    lapTimes.push(`${mins}:${seconds}:${tens}`);
-    // Display lap times
-    displayLapTimes();
-});
-
-function startTimer() {
-    tens++;
-    if (tens <= 9) {
-        getTens.innerHTML = '0' + tens;
+function changeTurn(){
+    if(turn === "X"){
+        turn = "O";
+        document.querySelector(".bg").style.left = "85px";
     }
-    if (tens > 9) {
-        getTens.innerHTML = tens;
-    }
-    if (tens > 99) {
-        seconds++;
-        getSeconds.innerHTML = '0' + seconds;
-        tens = 0;
-        getTens.innerHTML = '00';
-    }
-    if (seconds > 9) {
-        getSeconds.innerHTML = seconds;
-    }
-    if (seconds > 59) {
-        mins++;
-        getMins.innerHTML = '0' + mins;
-        seconds = 0;
-        getSeconds.innerHTML = '00';
-    }
-    if (mins > 9) {
-        getMins.innerHTML = mins;
+    else{
+        turn = "X";
+        document.querySelector(".bg").style.left = "0";
     }
 }
 
-function displayLapTimes() {
-    // Clear previous lap times
-    lapList.innerHTML = '';
-    // Populate lap list with lap times
-    lapTimes.forEach((lapTime, index) => {
-        let lapItem = document.createElement('li');
-        lapItem.textContent = `Lap ${index + 1}: ${lapTime}`;
-        lapList.appendChild(lapItem);
-    });
-    // Append lap list to lap list container
-    lapListContainer.appendChild(lapList);
+function cheakWin(){
+    let winConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ]
+    for(let i = 0; i<winConditions.length; i++){
+        let v0 = boxes[winConditions[i][0]].innerHTML;
+        let v1 = boxes[winConditions[i][1]].innerHTML;
+        let v2 = boxes[winConditions[i][2]].innerHTML;
+
+        if(v0 != "" && v0 === v1 && v0 === v2){
+            isGameOver = true;
+            document.querySelector("#results").innerHTML = turn + " win";
+            document.querySelector("#play-again").style.display = "inline"
+
+            for(j = 0; j<3; j++){
+                boxes[winConditions[i][j]].style.backgroundColor = "#08D9D6"
+                boxes[winConditions[i][j]].style.color = "#000"
+            }
+        }
+    }
 }
+
+function cheakDraw(){
+    if(!isGameOver){
+        let isDraw = true;
+        boxes.forEach(e =>{
+            if(e.innerHTML === "") isDraw = false;
+        })
+
+        if(isDraw){
+            isGameOver = true;
+            document.querySelector("#results").innerHTML = "Draw";
+            document.querySelector("#play-again").style.display = "inline"
+        }
+    }
+}
+
+document.querySelector("#play-again").addEventListener("click", ()=>{
+    isGameOver = false;
+    turn = "X";
+    document.querySelector(".bg").style.left = "0";
+    document.querySelector("#results").innerHTML = "";
+    document.querySelector("#play-again").style.display = "none";
+
+    boxes.forEach(e =>{
+        e.innerHTML = "";
+        e.style.removeProperty("background-color");
+        e.style.color = "#fff"
+    })
+})
